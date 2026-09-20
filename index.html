@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ngbuu - Portfolio</title>
+  <meta name="description" content="Portfolio of Bùi Ngọc Bửu (Ngbuu), an Information Technology student at HCMUS who builds websites.">
+
+  <link rel="stylesheet" href="https://use.typekit.net/rzj4wgw.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Climate+Crisis:YEAR@1979&family=Gowun+Batang&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <nav aria-label="Main navigation">
+      <ul class="nav-links">
+        <li><span class="ngbuu">Ngbuu</span></li>
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <img src="./avatar.jpg" id="avatar" alt="Ngbuu">
+  </header>
+
+  <main>
+    <section id="home">
+      <div class="home-text">
+        <p class="home-role">Student · Web Developer</p>
+        <h1>Hi, I'm Bùi Ngọc Bửu (Ngbuu).</h1>
+        <p class="home-bio">
+          I'm an Information Technology student at HCMUS in Ho Chi Minh City.
+          I like building clean, easy-to-use websites, and this is where I keep the ones I've made.
+        </p>
+
+        <div class="home-actions">
+          <a href="#projects" class="btn btn-primary">View projects</a>
+          <a href="#contact" class="btn btn-outline">Contact me</a>
+        </div>
+      </div>
+
+      <img class="home-photo" src="./avatar.jpg" alt="Portrait of Ngbuu">
+    </section>
+
+    <section id="projects">
+      <div class="section-head">
+        <h2>Projects</h2>
+        <p>Two websites from my final year of high school.</p>
+      </div>
+
+      <div class="project-grid">
+
+        <article class="project">
+          <div class="project-thumb">
+            <img src="https://ngbuu08.github.io/Web-Car/Porsche%20911.jpg" alt="A Porsche 911 on the AutoVelocity homepage" loading="lazy">
+          </div>
+          <div class="project-body">
+            <p class="project-meta">Group project, 2025</p>
+            <h3>AutoVelocity</h3>
+            <p>
+              A showroom website for buying supercars and luxury cars, built with three classmates
+              (Group 1, class A9K55). It has a page for each of eight models from Porsche, Mercedes,
+              Lamborghini and BMW, plus a form to request a consultation.
+            </p>
+            <a class="project-link" href="https://ngbuu08.github.io/Web-Car/" target="_blank" rel="noopener">Visit AutoVelocity</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project-thumb thumb-text" aria-hidden="true">
+            <span>Ngbuu's<br>Yearbook</span>
+          </div>
+          <div class="project-body">
+            <p class="project-meta">Personal project, 2026</p>
+            <h3>Ngbuu's Yearbook</h3>
+            <p>
+              A digital yearbook for my class at the end of 12th grade. It opens with a letter from me,
+              invites visitors to write me a message, and ends with a few words about our teacher and school.
+            </p>
+            <a class="project-link" href="https://ngbuu08.github.io/YearBook/" target="_blank" rel="noopener">Visit the yearbook</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+    <section id="about">
+      <div class="section-head">
+        <h2>About</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm from Gia Lai, Vietnam, and I'm now studying Information Technology at HCMUS
+            in Ho Chi Minh City.
+          </p>
+          <p>
+            I enjoy turning an idea into a small, clean website that works well on any screen.
+            I use this portfolio to keep the projects I build along the way.
+          </p>
+        </div>
+
+        <dl class="facts">
+          <div>
+            <dt>From</dt>
+            <dd>Gia Lai (formerly Bình Định), Vietnam</dd>
+          </div>
+          <div>
+            <dt>High school</dt>
+            <dd>Quang Trung No. 1 High School, Gia Lai</dd>
+          </div>
+          <div>
+            <dt>University</dt>
+            <dd>HCMUS (University of Science, VNU-HCM), Information Technology, since 2026</dd>
+          </div>
+          <div>
+            <dt>Based in</dt>
+            <dd>Thu Duc, Ho Chi Minh City, Vietnam</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+    <section id="contact">
+      <div class="section-head">
+        <h2>Contact</h2>
+        <p>Want to work together or just say hi? Send me an email or give me a call.</p>
+      </div>
+
+      <dl class="contact-list">
+        <div>
+          <dt>Email</dt>
+          <dd><a href="mailto:ngocbuu0979091160@gmail.com">ngocbuu0979091160@gmail.com</a></dd>
+        </div>
+        <div>
+          <dt>Phone</dt>
+          <dd><a href="tel:+84979091160">(+84) 979 091 160</a></dd>
+        </div>
+        <div>
+          <dt>Address</dt>
+          <dd>Thu Duc, Ho Chi Minh City, Vietnam</dd>
+        </div>
+      </dl>
+
+      <p class="footer-note">&copy; 2026 Bùi Ngọc Bửu. Designed and coded by hand and a little bit Claude.</p>
+    </section>
+
+  </main>
+
+  <script src="./src/script.js"></script>
+</body>
+</html>
