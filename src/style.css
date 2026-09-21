@@ -2,23 +2,25 @@
   --ice-1: #eef4f6;
   --ice-2: #e0ecef;
   --ice-3: #d2e3e8;
-  --deep: #0d3b4f;         
-  --water: #3f9bb0;   
-  --water-light: #8fd0e0; 
+
+  --deep: #0d3b4f;
+  --water: #3f9bb0;
+  --water-light: #8fd0e0;
   --heat: #ff5b3a;
+
   --ink: var(--deep);
   --muted: #3e5a66;
   --line: rgba(13, 59, 79, 0.2);
+
   --nav-h: 3rem;
+
   --font-body: "DM Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-display: "Climate Crisis", var(--font-body);
+
   --pad-x: clamp(1rem, 5vw, 4rem);
   --gutter: max(var(--pad-x), calc((100vw - 68rem) / 2));
 }
 
-/* =========================================================
-   RESET & BASE
-   ========================================================= */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; }
@@ -34,6 +36,7 @@ body {
 a { color: inherit; }
 ul, ol { list-style: none; }
 img { max-width: 100%; display: block; }
+
 button, input, textarea, select { font: inherit; }
 
 ::selection { background: var(--heat); color: #fff; }
@@ -51,13 +54,10 @@ button, input, textarea, select { font: inherit; }
   font-weight: 400;
 }
 
-/* =========================================================
-   SECTIONS
-   ========================================================= */
 section {
   min-height: 100vh;
   padding: 5rem var(--gutter);
-  scroll-margin-top: var(--nav-h);   
+  scroll-margin-top: var(--nav-h);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,9 +81,6 @@ section {
   font-size: 1.125rem;
 }
 
-/* =========================================================
-   NAVBAR
-   ========================================================= */
 .navbar {
   position: sticky;
   top: 0;
@@ -140,9 +137,6 @@ section {
   box-shadow: 0 0 0 1px var(--line);
 }
 
-/* =========================================================
-   HOME
-   ========================================================= */
 #home {
   justify-content: space-between;
   padding-top: 2rem;
@@ -151,9 +145,9 @@ section {
 }
 
 .hero-name {
-  font-size: clamp(3rem, 19.5vw, 14.5rem);  
+  font-size: clamp(3rem, 19.5vw, 14.5rem);
   line-height: 1;
-  padding-bottom: 0.12em;                   
+  padding-bottom: 0.12em;
   white-space: nowrap;
   color: var(--deep);
   font-variation-settings: "YEAR" var(--year, 1979);
@@ -230,9 +224,6 @@ section {
   pointer-events: none;
 }
 
-/* =========================================================
-   PROJECTS
-   ========================================================= */
 #projects { background: var(--ice-2); }
 
 .project {
@@ -306,9 +297,6 @@ section {
 
 .project-link:hover { text-decoration-thickness: 4px; }
 
-/* =========================================================
-   ABOUT
-   ========================================================= */
 #about { background: var(--ice-3); }
 
 .about-grid {
@@ -383,9 +371,6 @@ section {
   border-top: 1px solid var(--line);
 }
 
-/* =========================================================
-   CONTACT
-   ========================================================= */
 #contact {
   position: relative;
   background: var(--deep);
@@ -404,6 +389,7 @@ section {
 }
 
 #contact .section-head p { color: rgba(238, 244, 246, 0.72); }
+
 .contact-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
@@ -448,6 +434,7 @@ section {
 
 .contact-list a { text-decoration: none; }
 .contact-list a:hover { color: var(--water-light); }
+
 .languages { border-top: 1px solid rgba(143, 208, 224, 0.3); }
 
 .languages h3 {
@@ -495,9 +482,52 @@ section {
   color: rgba(238, 244, 246, 0.55);
 }
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+@property --year {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1979;
+}
+
+@keyframes freeze {
+  from { --year: 2050; opacity: 0; }
+  25%  { opacity: 1; }
+  to   { --year: 1979; opacity: 1; }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(1rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+.hero-name {
+  animation: freeze 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.home-lead,
+.home-bio,
+.home-actions,
+.home-photo-wrap {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+.home-photo-wrap { animation-delay: 0.9s; }
+.home-lead       { animation-delay: 1s; }
+.home-bio        { animation-delay: 1.15s; }
+.home-actions    { animation-delay: 1.3s; }
+
+.reveal-word { display: inline-block; }
+
+.reveal-char {
+  opacity: 0.14;
+  filter: blur(2px);
+  transition: opacity 0.6s ease, filter 0.6s ease;
+}
+
+.reveal-char.on {
+  opacity: 1;
+  filter: blur(0);
+}
+
 @media (max-width: 900px) {
   .about-grid { gap: 3rem; }
   .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
@@ -524,4 +554,9 @@ section {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .btn, .nav-links a { transition: none; }
+  .hero-name,
+  .home-lead,
+  .home-bio,
+  .home-actions,
+  .home-photo-wrap { animation: none; }
 }
