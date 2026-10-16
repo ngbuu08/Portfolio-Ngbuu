@@ -1,15 +1,18 @@
 const heroName = document.querySelector('.hero-name');
 const home = document.getElementById('home');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+/* 1. Variable Font Scroll Animation on Hero Title */
 if (heroName && home && !prefersReducedMotion) {
   const YEAR_START = 1979;
   const YEAR_END = 2050;
   let ticking = false;
 
-  const update = () => {
-    const progress = Math.min(Math.max(window.scrollY / (home.offsetHeight * 0.6), 0), 1);
-    heroName.style.setProperty('--year', Math.round(YEAR_START + (YEAR_END - YEAR_START) * progress));
+  const updateHeroFont = () => {
+    const progress = Math.min(Math.max(window.scrollY / (home.offsetHeight * 0.65), 0), 1);
+    const currentYear = Math.round(YEAR_START + (YEAR_END - YEAR_START) * progress);
+    heroName.style.setProperty('--year', currentYear);
     ticking = false;
   };
 
@@ -18,69 +21,93 @@ if (heroName && home && !prefersReducedMotion) {
     () => {
       if (!ticking) {
         ticking = true;
-        requestAnimationFrame(update);
+        requestAnimationFrame(updateHeroFont);
       }
     },
     { passive: true }
   );
 
-  update();
+  updateHeroFont();
 }
 
-const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+/* 2. Staggered Scroll Reveal using IntersectionObserver */
+const scrollElements = document.querySelectorAll('[data-scroll]');
 
-if (canHover && !prefersReducedMotion) {
-  const REVEAL_RADIUS = 3;
-  const REVEAL_ALL_AFTER = 9000;
-
-  document.querySelectorAll('.reveal').forEach((el) => {
-    const text = el.textContent.replace(/\s+/g, ' ').trim();
-    const chars = [];
-
-    const forScreenReaders = document.createElement('span');
-    forScreenReaders.className = 'sr-only';
-    forScreenReaders.textContent = text;
-
-    const visual = document.createElement('span');
-    visual.setAttribute('aria-hidden', 'true');
-
-    text.split(' ').forEach((word, wordIndex, words) => {
-      const wordEl = document.createElement('span');
-      wordEl.className = 'reveal-word';
-
-      [...word].forEach((character) => {
-        const charEl = document.createElement('span');
-        charEl.className = 'reveal-char';
-        charEl.textContent = character;
-        charEl.dataset.index = chars.length;
-        chars.push(charEl);
-        wordEl.appendChild(charEl);
+if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+  const revealObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry, idx) => {
+        if (entry.isIntersecting) {
+          entry.target.style.transitionDelay = `${idx * 70}ms`;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
       });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+  );
 
-      visual.appendChild(wordEl);
-      if (wordIndex < words.length - 1) visual.appendChild(document.createTextNode(' '));
-    });
+  scrollElements.forEach((el) => revealObserver.observe(el));
+} else {
+  scrollElements.forEach((el) => el.classList.add('is-visible'));
+}
 
-    el.textContent = '';
-    el.append(forScreenReaders, visual);
+/* 3. Active Navigation Highlight (Scroll Spy) */
+const sections = document.querySelectorAll('main section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
 
-    visual.addEventListener('mouseover', (event) => {
-      const center = Number(event.target.dataset.index);
-      if (Number.isNaN(center)) return;
-
-      for (let i = center - REVEAL_RADIUS; i <= center + REVEAL_RADIUS; i++) {
-        const charEl = chars[i];
-        if (!charEl || charEl.classList.contains('on')) continue;
-        charEl.style.transitionDelay = `${Math.abs(i - center) * 40}ms`;
-        charEl.classList.add('on');
+const spyObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach((link) => {
+          link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+        });
       }
     });
+  },
+  { rootMargin: '-40% 0px -55% 0px' }
+);
 
-    setTimeout(() => {
-      chars.forEach((charEl, i) => {
-        charEl.style.transitionDelay = `${i * 8}ms`;
-        charEl.classList.add('on');
-      });
-    }, REVEAL_ALL_AFTER);
+sections.forEach((sec) => spyObserver.observe(sec));
+
+/* 4. Desktop Micro-interactions: Cursor Glow, Magnetic Buttons & 3D Tilt */
+if (canHover && !prefersReducedMotion) {
+  // Subtle ambient cursor glow
+  const cursorGlow = document.querySelector('.cursor-glow');
+  if (cursorGlow) {
+    window.addEventListener('pointermove', (e) => {
+      cursorGlow.style.left = `${e.clientX}px`;
+      cursorGlow.style.top = `${e.clientY}px`;
+    }, { passive: true });
+  }
+
+  // Magnetic effect on Hero Buttons
+  document.querySelectorAll('.magnetic').forEach((btn) => {
+    btn.addEventListener('pointermove', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const x = (e.clientX - rect.left - rect.width / 2) * 0.22;
+      const y = (e.clientY - rect.top - rect.height / 2) * 0.22;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    btn.addEventListener('pointerleave', () => {
+      btn.style.transform = 'translate(0, 0)';
+    });
+  });
+
+  // Subtle 3D perspective tilt on Project Thumbnails
+  document.querySelectorAll('.tilt-card').forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(900px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) translateY(-4px)`;
+    });
+
+    card.addEventListener('pointerleave', () => {
+      card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateY(0)';
+    });
   });
 }
